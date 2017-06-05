@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   Promise.all([
-    knex.schema.createTable('comments', (table) => {
+    return knex.schema.createTable('comments', (table) => {
       table.increments('id').primary()
       table.integer('card_id').notNullable()
       table.integer('user_id').notNullable()
@@ -13,6 +13,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   Promise.all([
-    knex.schema.dropTable('comments')
+    return knex.schema.dropTable('comments')
   ])
 };
