@@ -683,6 +683,11 @@ const addOrRemoveCardLabel = (cardId, labelId) => {
     })
 }
 
+const addComment = (userId, cardId, comment) => {
+  const attributes = {user_id: userId, card_id: cardId, comment: comment}
+  return createRecord('comments', attributes)
+}
+
 export default {
   createUser,
   updateUser,
@@ -721,4 +726,5 @@ export default {
   updateLabel,
   deleteLabel,
   recordActivity,
+  addComment
 }

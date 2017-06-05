@@ -49,7 +49,17 @@ export default class CardModal extends Component {
   }
 
   onCreateComment(comment) {
-    
+    $.ajax({
+      method: 'post',
+      url: `/api/cards/${this.props.card.id}/comment`,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify({comment: comment})
+    }).then(() => {
+      boardStore.reload()
+    }).catch(error => {
+      console.error(error)
+    })
   }
 
   render(){
