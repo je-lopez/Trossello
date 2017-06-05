@@ -77,7 +77,6 @@
     "moment": "^2.16.0",
     "morgan": "^1.7.0",
     "node-sass": "^3.10.0",
-    "node-uuid": "^1.4.7",
     "nodemailer": "^2.6.4",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^1.10.2",

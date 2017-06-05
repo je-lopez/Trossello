@@ -21,9 +21,11 @@ export default class CardModal extends Component {
     board: React.PropTypes.object.isRequired,
     onClose: React.PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     session: React.PropTypes.object.isRequired
   }
+
   constructor(props){
     super(props)
     this.state = {
@@ -33,6 +35,7 @@ export default class CardModal extends Component {
     }
     this.showLabelMenu = this.showLabelMenu.bind(this)
     this.stopShowingLabelMenu = this.stopShowingLabelMenu.bind(this)
+    this.onCreateComment = this.onCreateComment.bind(this)
   }
 
   showLabelMenu(event) {
@@ -43,6 +46,10 @@ export default class CardModal extends Component {
   stopShowingLabelMenu(event) {
     event.preventDefault()
     this.setState({showingLabelMenu: false})
+  }
+
+  onCreateComment(comment) {
+    
   }
 
   render(){
@@ -68,7 +75,7 @@ export default class CardModal extends Component {
               <CardLabels card={card} board={board} labelPanel={labelPanel}/>
               <CardDescription card={card}/>
             </div>
-            <CardComments session={session}/>
+            <CardComments onCreateComment={this.onCreateComment} session={session}/>
           </div>
           <Controls
             board={board}
@@ -108,7 +115,6 @@ const CardHeader = ({card, list}) => {
         in list {list.name}
     </div>
   </div>
-
 }
 
 const CardLabels =({card, board, labelPanel}) => {
@@ -218,6 +224,10 @@ class UnArchiveCardButton extends Component {
   }
 }
 
+UnArchiveCardButton.proptypes = {
+
+}
+
 class ArchiveCardButton extends Component {
   static propTypes = {
     card: React.PropTypes.object.isRequired,
@@ -284,6 +294,15 @@ class CardName extends Component {
 }
 
 class CardComments extends Component {
+  constructor(props) {
+    super(props)
+    this.createComment = this.createComment.bind(this)
+  }
+
+  createComment(event) {
+    event.preventDefault()
+    this.props.onCreateComment(this.refs.comment.value)
+  }
 
   render(){
     const { session } = this.props
@@ -301,13 +320,13 @@ class CardComments extends Component {
         <div className="CardModal-CardComments-image-container">
           <img className="CardModal-CardComments-image" src={session.user.avatar_url}></img>
         </div>
-        <Form className="CardModal-CardComments-Form">
+        <Form className="CardModal-CardComments-Form" onSubmit={this.createComment}>
           <textarea
             className="CardModal-CardComments-Form-input"
             ref="comment"
             placeholder='Write a comment...'
           />
-          <Button type="primary" disabled="true" className="CardModal-CardComments-Form-submit">
+          <Button type="primary" className="CardModal-CardComments-Form-submit" submit>
             Send
           </Button>
         </Form>
