@@ -10,12 +10,14 @@ class ActivityPanel extends Component {
   }
 
   render() {
-    const activities = this.props.board.activity.map(activity =>
-      <Activity key={activity.id} activity={activity} users={this.props.board.users} board={this.props.board}/>
-    )
+
+    const activities = this.props.board.activity.map(activity => {
+      if ((this.props.card && this.props.card.id === activity.card_id) || !this.props.card) {
+        return <Activity key={activity.id} activity={activity} users={this.props.board.users} board={this.props.board}/>
+      }
+    })
     const className =
       `BoardShowPage-MenuSideBar-ActivityPanel ${this.props.className||''}`
-
     return <div className={className}>
       {activities}
     </div>

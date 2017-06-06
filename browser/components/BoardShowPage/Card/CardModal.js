@@ -13,6 +13,7 @@ import ConfirmationButton from '../../ConfirmationButton'
 import boardStore from '../../../stores/boardStore'
 import PopoverMenuButton from '../../PopoverMenuButton'
 import CopyCard from '../CopyCard'
+import { ActivityPanel } from '../MenuSideBar/ActivityPanel'
 
 export default class CardModal extends Component {
   static propTypes = {
@@ -86,6 +87,11 @@ export default class CardModal extends Component {
               <CardDescription card={card}/>
             </div>
             <CardComments onCreateComment={this.onCreateComment} session={session}/>
+            <Link className='CardModal-Activity-header' >
+              <Icon type='list' />
+              Activity
+            </Link>
+            <ActivityPanel board={board} card={card} />
           </div>
           <Controls
             board={board}
