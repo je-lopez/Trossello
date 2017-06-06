@@ -3,6 +3,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('comments', (table) => {
       table.increments('id').primary()
+      table.integer('board_id').notNullable()
       table.integer('card_id').notNullable()
       table.integer('user_id').notNullable()
       table.string('comment').notNullable()

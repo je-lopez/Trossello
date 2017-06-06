@@ -70,6 +70,7 @@ const getBoardById = (id) =>
           getUsersForBoard(board),
           getLabelsForBoard(board),
           getActivityForBoard(board),
+          getCommentsForBoard(board),
         ]).then( () => board)
       }else{
         return Promise.resolve(board)
@@ -155,6 +156,20 @@ const getActivityByBoardId = (boardId) => {
     .orderBy('created_at', 'desc')
 }
 
+const getCommentsForBoard = (board) => {
+  return getCommentsByBoardId(board.id)
+    .then(comments => {
+      board.comments = comments
+      return board
+    })
+}
+
+const getCommentsByBoardId = (boardId) => {
+  return knex.table('comments')
+    .select('*')
+    .where('board_id', boardId)
+}
+
 export default {
   getUsers,
   getUserById,
@@ -168,4 +183,6 @@ export default {
   getBoardMoveTargetsForUserId,
   getLabelById,
   getActivityByBoardId,
+  getCommentsForBoard,
+  getCommentsByBoardId
 }

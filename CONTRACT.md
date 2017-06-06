@@ -7,12 +7,12 @@
 
 - [x] Users can comment on cards
 - [x] Cards have an activity feed
-- [ ] Comments are rendered in the activity feed
-- [ ] Activity feed shows when card is created
-- [ ] Activity feed shows when card is archived
-- [ ] Activity feed shows when card is unarchived
-- [ ] Activity feed shows when card is moved from one list to another
-- [ ] Activity feed items are rendered in reverse sequential order (most recent item on top)
+- [x] Comments are rendered in the activity feed
+- [x] Activity feed shows when card is created
+- [x] Activity feed shows when card is archived
+- [x] Activity feed shows when card is unarchived
+- [x] Activity feed shows when card is moved from one list to another
+- [x] Activity feed items are rendered in reverse sequential order (most recent item on top)
 - [ ] Users can edit comments
 - [ ] Users can delete comments
 - [ ] Tests exist for each of the above specs
@@ -20,10 +20,10 @@
 
 #### General
 
-- [ ] The artifact produced is a fork of the Trossello repository
-- [ ] All major features are added via pull requests with a clear description and concise commit messages.
-- [ ] Code uses a linter and there are no linting errors.
-- [ ] Variables, functions, files, etc. have appropriate and meaningful names.
+- [x] The artifact produced is a fork of the Trossello repository
+- [x] All major features are added via pull requests with a clear description and concise commit messages.
+- [x] Code uses a linter and there are no linting errors.
+- [x] Variables, functions, files, etc. have appropriate and meaningful names.
 
 #### Stretch
 

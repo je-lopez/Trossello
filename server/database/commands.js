@@ -43,6 +43,7 @@ const ACTIVITY_TYPES = [
   'ArchivedList',
   'UnarchivedList',
   'DeletedCard',
+  'AddedComment'
 ]
 
 const recordActivity = (attributes) => {
@@ -683,9 +684,21 @@ const addOrRemoveCardLabel = (cardId, labelId) => {
     })
 }
 
-const addComment = (userId, cardId, comment) => {
-  const attributes = {user_id: userId, card_id: cardId, comment: comment}
+const addComment = (boardId, userId, cardId, comment) => {
+  const attributes = {
+    board_id: boardId,
+    user_id: userId,
+    card_id: cardId,
+    comment: comment
+  }
+
   return createRecord('comments', attributes)
+    .then((response) => {
+      delete attributes.comment
+      attributes.type = 'AddedComment'
+      attributes.metadata = {comment_id: response.id}
+      return recordActivity(attributes)
+    })
 }
 
 export default {

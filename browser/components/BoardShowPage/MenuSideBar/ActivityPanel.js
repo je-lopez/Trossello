@@ -176,6 +176,18 @@ const activityString = (activity, user, board) => {
           {moment(activity.created_at).fromNow()}
         </span>
       </span>
+    case 'AddedComment':
+      const comment = board.comments.find((comment) => {
+        return comment.id === JSON.parse(activity.metadata).comment_id
+      })
+      return (
+        <span className={stringClass}>
+          { comment.comment }
+          <span className={timeClass}>
+            { moment(activity.created_at).fromNow() }
+          </span>
+        </span>
+      )
     default:
       return null
   }
