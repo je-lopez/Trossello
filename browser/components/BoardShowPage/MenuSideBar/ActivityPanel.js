@@ -10,8 +10,14 @@ class ActivityPanel extends Component {
     board: React.PropTypes.object.isRequired
   }
 
-  render() {
+  constructor(props) {
+    super(props)
+    this.state = {
+      refs: ''
+    }
+  }
 
+  render() {
     const activities = this.props.board.activity.map(activity => {
       if ((this.props.card && this.props.card.id === activity.card_id) || !this.props.card) {
         return <Activity key={activity.id} activity={activity} users={this.props.board.users} board={this.props.board}/>
@@ -23,19 +29,6 @@ class ActivityPanel extends Component {
       {activities}
     </div>
   }
-}
-
-const deleteComment = (commentId, activityId, event) => {
-  event.preventDefault()
-  $.ajax({
-    method: "post",
-    url: `/api/cards/1/comment/delete`,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    data: JSON.stringify({commentId: commentId, activityId: activityId})
-  }).then(() => {
-    boardStore.reload()
-  })
 }
 
 const MainPaneActivity = props => {
@@ -55,7 +48,6 @@ const MainPaneActivity = props => {
 }
 
 const activityString = (activity, user, board) => {
-
   const openCardModal = `/boards/${activity.board_id}/cards/${activity.card_id}`
 
   const checkIfCardExists = (card) => typeof(card)==='object'
@@ -197,23 +189,80 @@ const activityString = (activity, user, board) => {
         return comment.id === JSON.parse(activity.metadata).comment_id
       })
       return (
-        <span className={stringClass}>
-          <span className={commentClass}>{ comment.comment }</span>
-          <div className={timeClass}>
-            { moment(activity.created_at).fromNow() }
-            &nbsp;-&nbsp;
-            <Link>
-              Edit
-            </Link>
-            &nbsp;-&nbsp;
-            <Link onClick={deleteComment.bind(this, comment.id, activity.id)}>
-              Delete
-            </Link>
-          </div>
-        </span>
+        <Comment comment={comment} activity={activity} />
       )
     default:
       return null
+  }
+}
+
+class Comment extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: this.props.comment.comment,
+      editing: false
+    }
+  }
+
+  deleteComment(event) {
+    event.preventDefault()
+    $.ajax({
+      method: "post",
+      url: `/api/comments/${this.props.comment.id}/activity/${this.props.activity.id}/delete`,
+      contentType: "application/json; charset=utf-8"
+    }).then(() => {
+      boardStore.reload()
+    })
+  }
+
+  editComment(event) {
+    event.preventDefault()
+    if (!this.state.editing) {
+      this.setState({
+        editing: true
+      })
+    } else {
+      $.ajax({
+        method: "post",
+        url: `/api/comments/${this.props.comment.id}/edit`,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({comment: this.refs.comment.textContent})
+      })
+      .then(() => {
+        boardStore.reload()
+        this.setState({
+          editing: false
+        })
+      })
+    }
+  }
+
+  render() {
+    const stringClass =
+      "BoardShowPage-MenuSideBar-ActivityPanel-Activity-string"
+    const timeClass =
+      'BoardShowPage-MenuSideBar-ActivityPanel-Activity-time'
+    const commentClass =
+      'BoardShowPage-MenuSideBar-ActivityPanel-Activity-comment'
+
+    return (
+      <span className={stringClass}>
+        <span ref="comment" className={commentClass} contentEditable={this.state.editing}>{ this.state.value }</span>
+        <div className={timeClass}>
+          { moment(this.props.activity.created_at).fromNow() }
+          &nbsp;-&nbsp;
+          <Link onClick={this.editComment.bind(this)}>
+            { (this.state.editing) ? 'Save' : 'Edit' }
+          </Link>
+          &nbsp;-&nbsp;
+          <Link onClick={this.deleteComment.bind(this)}>
+            Delete
+          </Link>
+        </div>
+      </span>
+    )
   }
 }
 

@@ -79,27 +79,4 @@ router.post('/:cardId/labels/:labelId', (request, response, next) => {
 
 })
 
-router.post('/:cardId/board/:boardId/comment', (request, response, next) => {
-  const { cardId, boardId } = request.params
-  const { userId } = request.session
-  const { comment } = request.body
-
-  commands.addComment(boardId, userId, cardId, comment)
-  .then((result) => {
-    response.json(null)
-  })
-  .catch(next)
-})
-
-router.post('/:cardId/comment/delete', (request, response, next) => {
-  console.log('comment route')
-  const { commentId, activityId } = request.body
-
-  commands.deleteComment(commentId, activityId)
-  .then((result) => {
-    response.json(null)
-  })
-  .catch(next)
-})
-
 export default router

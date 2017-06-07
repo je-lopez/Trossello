@@ -14,9 +14,9 @@
 - [x] Activity feed shows when card is moved from one list to another
 - [x] Activity feed items are rendered in reverse sequential order (most recent item on top)
 - [ ] Users can edit comments
-- [ ] Users can delete comments
+- [x] Users can delete comments
 - [ ] Tests exist for each of the above specs
-- [ ] UI looks the same as in the mockups
+- [x] UI looks the same as in the mockups
 
 #### General
 

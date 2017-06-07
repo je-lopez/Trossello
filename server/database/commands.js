@@ -708,6 +708,11 @@ const deleteComment = (commentId, activityId) => {
     })
 }
 
+const editComment = (commentId, comment) => {
+  const attributes = {comment: comment}
+  return updateRecord('comments', commentId, attributes)
+}
+
 export default {
   createUser,
   updateUser,
@@ -747,5 +752,6 @@ export default {
   deleteLabel,
   recordActivity,
   addComment,
-  deleteComment
+  deleteComment,
+  editComment
 }
