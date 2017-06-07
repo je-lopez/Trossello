@@ -91,4 +91,15 @@ router.post('/:cardId/board/:boardId/comment', (request, response, next) => {
   .catch(next)
 })
 
+router.post('/:cardId/comment/delete', (request, response, next) => {
+  console.log('comment route')
+  const { commentId, activityId } = request.body
+
+  commands.deleteComment(commentId, activityId)
+  .then((result) => {
+    response.json(null)
+  })
+  .catch(next)
+})
+
 export default router

@@ -701,6 +701,13 @@ const addComment = (boardId, userId, cardId, comment) => {
     })
 }
 
+const deleteComment = (commentId, activityId) => {
+  return deleteRecord('comments', commentId)
+    .then((response) => {
+      return deleteRecord('activity', activityId)
+    })
+}
+
 export default {
   createUser,
   updateUser,
@@ -739,5 +746,6 @@ export default {
   updateLabel,
   deleteLabel,
   recordActivity,
-  addComment
+  addComment,
+  deleteComment
 }

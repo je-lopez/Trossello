@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Link from '../../Link'
 import moment from 'moment'
 import './ActivityPanel.sass'
+import $ from 'jquery'
 
 class ActivityPanel extends Component {
 
@@ -22,6 +23,19 @@ class ActivityPanel extends Component {
       {activities}
     </div>
   }
+}
+
+const deleteComment = (commentId, activityId, event) => {
+  event.preventDefault()
+  $.ajax({
+    method: "post",
+    url: `/api/cards/1/comment/delete`,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify({commentId: commentId, activityId: activityId})
+  }).then(() => {
+    boardStore.reload()
+  })
 }
 
 const MainPaneActivity = props => {
@@ -54,6 +68,8 @@ const activityString = (activity, user, board) => {
     'BoardShowPage-MenuSideBar-ActivityPanel-Activity-string-cardNameLink'
   const timeClass =
     'BoardShowPage-MenuSideBar-ActivityPanel-Activity-time'
+  const commentClass =
+    'BoardShowPage-MenuSideBar-ActivityPanel-Activity-comment'
 
   switch (activity.type) {
     case 'JoinedBoard':
@@ -182,10 +198,18 @@ const activityString = (activity, user, board) => {
       })
       return (
         <span className={stringClass}>
-          { comment.comment }
-          <span className={timeClass}>
+          <span className={commentClass}>{ comment.comment }</span>
+          <div className={timeClass}>
             { moment(activity.created_at).fromNow() }
-          </span>
+            &nbsp;-&nbsp;
+            <Link>
+              Edit
+            </Link>
+            &nbsp;-&nbsp;
+            <Link onClick={deleteComment.bind(this, comment.id, activity.id)}>
+              Delete
+            </Link>
+          </div>
         </span>
       )
     default:
