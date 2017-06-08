@@ -18,18 +18,18 @@ router.post('/card/:cardId/board/:boardId', (request, response, next) => {
 router.post('/:commentId/activity/:activityId/delete', (request, response, next) => {
   const { commentId, activityId } = request.params
 
-  commands.deleteComment(commentId, activityId)
+  commands.deleteComment(parseInt(commentId), activityId)
   .then((result) => {
     response.json(null)
   })
   .catch(next)
 })
 
-router.post('/:commentId/edit', (request, response, next) => {
-  const { commentId } = request.params
+router.post('/:commentId/activity/:activityId/edit', (request, response, next) => {
+  const { commentId, activityId } = request.params
   const { comment } = request.body
 
-  commands.editComment(commentId, comment)
+  commands.editComment(parseInt(commentId), comment, activityId)
   .then((result) => {
     response.json(null)
   })

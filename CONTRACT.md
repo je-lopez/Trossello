@@ -13,7 +13,7 @@
 - [x] Activity feed shows when card is unarchived
 - [x] Activity feed shows when card is moved from one list to another
 - [x] Activity feed items are rendered in reverse sequential order (most recent item on top)
-- [ ] Users can edit comments
+- [x] Users can edit comments
 - [x] Users can delete comments
 - [ ] Tests exist for each of the above specs
 - [x] UI looks the same as in the mockups
@@ -27,10 +27,10 @@
 
 #### Stretch
 
-- [ ] Activity feed items show when they were created
-- [ ] If items were created less than 24 hours previously, shows creation time as X minutes/hours ago, e.g. 18 minutes ago or 8 hours ago
+- [x] Activity feed items show when they were created
+- [x] If items were created less than 24 hours previously, shows creation time as X minutes/hours ago, e.g. 18 minutes ago or 8 hours ago
 - [ ] If items were created less than 24 hours previously, shows creation time as <month> <day> at <time>, e.g. Jan 28 at 4:32pm
-- [ ] Edited comments show that they have been edited with an (edited) text appearing next to their creation time
+- [x] Edited comments show that they have been edited with an (edited) text appearing next to their creation time
 - [ ] Activity feed shows when card title is changed
 - [ ] Activity feed shows when card description is changed
 - [ ] Activity feed shows when label is added to card

@@ -696,7 +696,7 @@ const addComment = (boardId, userId, cardId, comment) => {
     .then((response) => {
       delete attributes.comment
       attributes.type = 'AddedComment'
-      attributes.metadata = {comment_id: response.id}
+      attributes.metadata = {comment_id: response.id, lastEdited: null}
       return recordActivity(attributes)
     })
 }
@@ -708,9 +708,16 @@ const deleteComment = (commentId, activityId) => {
     })
 }
 
-const editComment = (commentId, comment) => {
-  const attributes = {comment: comment}
-  return updateRecord('comments', commentId, attributes)
+const editComment = (commentId, comment, activityId) => {
+  const metadata = {
+    comment_id: commentId,
+    lastEdited: new Date(Date.now())
+  }
+
+  return Promise.all([
+    updateRecord('comments', commentId, {comment: comment}),
+    updateRecord('activity', activityId, {metadata: metadata})
+  ])
 }
 
 export default {

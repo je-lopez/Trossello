@@ -186,7 +186,7 @@ const activityString = (activity, user, board) => {
       </span>
     case 'AddedComment':
       const comment = board.comments.find((comment) => {
-        return comment.id === JSON.parse(activity.metadata).comment_id
+        return comment.id === metadata.comment_id
       })
       return (
         <Comment comment={comment} activity={activity} />
@@ -199,6 +199,7 @@ const activityString = (activity, user, board) => {
 class Comment extends Component {
   constructor(props) {
     super(props)
+    console.log('inside comment class')
     this.state = {
       value: this.props.comment.comment,
       editing: false
@@ -225,7 +226,7 @@ class Comment extends Component {
     } else {
       $.ajax({
         method: "post",
-        url: `/api/comments/${this.props.comment.id}/edit`,
+        url: `/api/comments/${this.props.comment.id}/activity/${this.props.activity.id}/edit`,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify({comment: this.refs.comment.textContent})
@@ -246,12 +247,17 @@ class Comment extends Component {
       'BoardShowPage-MenuSideBar-ActivityPanel-Activity-time'
     const commentClass =
       'BoardShowPage-MenuSideBar-ActivityPanel-Activity-comment'
+    const metadata = JSON.parse(this.props.activity.metadata)
+
+    const date = metadata.lastEdited
+                 ? 'Edited ' + moment(metadata.lastEdited).fromNow()
+                 : moment(this.props.activity.created_at).fromNow()
 
     return (
       <span className={stringClass}>
         <span ref="comment" className={commentClass} contentEditable={this.state.editing}>{ this.state.value }</span>
         <div className={timeClass}>
-          { moment(this.props.activity.created_at).fromNow() }
+          {date}
           &nbsp;-&nbsp;
           <Link onClick={this.editComment.bind(this)}>
             { (this.state.editing) ? 'Save' : 'Edit' }
