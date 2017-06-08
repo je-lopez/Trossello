@@ -15,7 +15,7 @@
 - [x] Activity feed items are rendered in reverse sequential order (most recent item on top)
 - [x] Users can edit comments
 - [x] Users can delete comments
-- [ ] Tests exist for each of the above specs
+- [x] Tests exist for each of the above specs
 - [x] UI looks the same as in the mockups
 
 #### General

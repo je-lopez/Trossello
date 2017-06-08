@@ -2,10 +2,45 @@ const { expect, knex, queries, commands, mailer } = require('../../setup')
 const {
   withTwoUsersInTheDatabase,
   withBoardsListsAndCardsInTheDatabase,
+  withBoardsListsCardsAndCommentsInTheDatabase
 } = require('../../helpers')
 
 
 describe('database.commands', () => {
+  describe('addComment', () => {
+    it('should insert a record into the comments table', () => {
+      return commands.addComment(101, 1455, 80, "Test Comment")
+        .then(activity => {
+          expect(activity).to.be.a('object')
+          expect(activity.type).to.eql('AddedComment')
+        })
+    })
+  })
+
+  describe('deleteComment', () => {
+    withBoardsListsCardsAndCommentsInTheDatabase(() => {
+      it('should delete a comment', () => {
+        return commands.deleteComment(1, 1)
+          .then(result => {
+            expect(result).to.eql(1)
+          })
+      })
+    })
+  })
+
+  describe('editComment', () => {
+    withBoardsListsCardsAndCommentsInTheDatabase(() => {
+      it('should edit a comment', () => {
+        return commands.editComment(2, 'Cheesecake', 2)
+          .then(result => {
+            expect(result).to.be.a('array')
+            expect(result[0]).to.be.a('object')
+            expect(result[1]).to.be.a('object')
+            expect(result[0].comment).to.eql('Cheesecake')
+          })
+      })
+    })
+  })
 
   describe('createUser', () => {
 

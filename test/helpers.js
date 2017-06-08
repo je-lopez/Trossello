@@ -166,6 +166,20 @@ const withBoardsListsAndCardsInTheDatabase = (callback) => {
   })
 }
 
+const withBoardsListsCardsAndCommentsInTheDatabase = (callback) => {
+  withBoardsListsAndCardsInTheDatabase(() => {
+    context('when there are comments in the database', () => {
+      beforeEach( () => {
+        return commands.addComment(101, 1455, 83, "TestComment")
+          .then( () => {
+            commands.addComment(101, 1455, 83, "TestComment2")
+          })
+      })
+      callback()
+    })
+  })
+}
+
 const loginAs = (userId) => {
   return request('get', `/__login/${userId}`) // back door hack
 }
@@ -176,6 +190,7 @@ const ACTIVITY_REGEXP_JSONTIMESTAMP =
 module.exports = {
   withTwoUsersInTheDatabase,
   withBoardsListsAndCardsInTheDatabase,
+  withBoardsListsCardsAndCommentsInTheDatabase,
   loginAs,
   ACTIVITY_REGEXP_JSONTIMESTAMP,
 }
