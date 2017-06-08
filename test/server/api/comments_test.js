@@ -56,16 +56,7 @@ describe('/api/comments', () => {
           return request('post', '/api/comments/card/80/board/101', attributes)
             .then((response) => {
               expect(response).to.have.status(200)
-            })
-        })
-      })
-
-      // DELETE COMMENT
-      describe('POST /api/comments/:commentId/activity/:activityId/delete', () => {
-        it('should delete a comment', () => {
-          return request('post', '/api/comments/1/activity/1/delete')
-            .then((response) => {
-              expect(response).to.have.status(200)
+              expect(response.body.type).to.eql('AddedComment')
             })
         })
       })
@@ -76,9 +67,27 @@ describe('/api/comments', () => {
           const attributes = {
             comment: 'EditedCommentTest'
           }
-          return request('post', '/api/comments/1/activity/1/edit', attributes)
+
+          return commands.addComment(101, 1455, 1455, "EditedCommentTest")
+            .then(activity => {
+              const metadata = JSON.parse(activity.metadata)
+
+              return request('post', `/api/comments/${metadata.comment_id}/activity/${activity.id}/edit`, attributes)
+            })
             .then((response) => {
               expect(response).to.have.status(200)
+              expect(response.body[0].comment).to.eql('EditedCommentTest')
+            })
+        })
+      })
+
+      // DELETE COMMENT
+      describe('POST /api/comments/:commentId/activity/:activityId/delete', () => {
+        it('should delete a comment', () => {
+          return request('post', '/api/comments/1/activity/1/delete')
+            .then((response) => {
+              expect(response).to.have.status(200)
+              expect(response.body).to.eql(1)
             })
         })
       })

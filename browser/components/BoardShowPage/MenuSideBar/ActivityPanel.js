@@ -7,22 +7,27 @@ import $ from 'jquery'
 class ActivityPanel extends Component {
 
   static PropTypes = {
-    board: React.PropTypes.object.isRequired
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      refs: ''
-    }
+    board: React.PropTypes.object.isRequired,
+    card: React.PropTypes.object,
   }
 
   render() {
-    const activities = this.props.board.activity.map(activity => {
-      if ((this.props.card && this.props.card.id === activity.card_id) || !this.props.card) {
-        return <Activity key={activity.id} activity={activity} users={this.props.board.users} board={this.props.board}/>
-      }
-    })
+    let activities = this.props.board.activity
+
+    if (this.props.card){
+      activities = activities
+        .filter(activity => this.props.card.id === activity.card_id)
+    }
+
+    activities = activities.map(activity =>
+      <Activity
+        key={activity.id}
+        activity={activity}
+        users={this.props.board.users}
+        board={this.props.board}
+      />
+    )
+
     const className =
       `BoardShowPage-MenuSideBar-ActivityPanel ${this.props.className||''}`
     return <div className={className}>
@@ -46,6 +51,7 @@ const MainPaneActivity = props => {
     </Link>
   </div>
 }
+
 
 const activityString = (activity, user, board) => {
   const openCardModal = `/boards/${activity.board_id}/cards/${activity.card_id}`
@@ -199,7 +205,8 @@ const activityString = (activity, user, board) => {
 class Comment extends Component {
   constructor(props) {
     super(props)
-    console.log('inside comment class')
+    this.deleteComment = this.deleteComment.bind(this)
+    this.editComment = this.editComment.bind(this)
     this.state = {
       value: this.props.comment.comment,
       editing: false
@@ -250,8 +257,8 @@ class Comment extends Component {
     const metadata = JSON.parse(this.props.activity.metadata)
 
     const date = metadata.lastEdited
-                 ? 'Edited ' + moment(metadata.lastEdited).fromNow()
-                 : moment(this.props.activity.created_at).fromNow()
+      ? 'Edited ' + moment(metadata.lastEdited).fromNow()
+      : moment(this.props.activity.created_at).fromNow()
 
     return (
       <span className={stringClass}>
@@ -259,11 +266,11 @@ class Comment extends Component {
         <div className={timeClass}>
           {date}
           &nbsp;-&nbsp;
-          <Link onClick={this.editComment.bind(this)}>
+          <Link onClick={this.editComment}>
             { (this.state.editing) ? 'Save' : 'Edit' }
           </Link>
           &nbsp;-&nbsp;
-          <Link onClick={this.deleteComment.bind(this)}>
+          <Link onClick={this.deleteComment}>
             Delete
           </Link>
         </div>

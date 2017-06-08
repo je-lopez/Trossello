@@ -69,7 +69,6 @@ describe('database.commands', () => {
         })
       })
     })
-
   })
 
   describe('updateUser', () => {

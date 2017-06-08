@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
+process.env.NODE_ENV = 'test'
 require('../lib/scripts').test(process.argv.slice(2))

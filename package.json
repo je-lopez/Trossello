@@ -14,7 +14,7 @@
     "start": "./bin/start",
     "test": "./bin/test",
     "test:coverage": "istanbul cover _mocha -- --recursive ./build/test",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint .",
     "heroku-postbuild": "npm run build"
   },
   "repository": {

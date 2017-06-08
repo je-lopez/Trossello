@@ -10,7 +10,7 @@ router.post('/card/:cardId/board/:boardId', (request, response, next) => {
 
   commands.addComment(boardId, userId, cardId, comment)
   .then((result) => {
-    response.json(null)
+    response.json(result)
   })
   .catch(next)
 })
@@ -20,7 +20,7 @@ router.post('/:commentId/activity/:activityId/delete', (request, response, next)
 
   commands.deleteComment(parseInt(commentId), activityId)
   .then((result) => {
-    response.json(null)
+    response.json(result)
   })
   .catch(next)
 })
@@ -31,7 +31,7 @@ router.post('/:commentId/activity/:activityId/edit', (request, response, next) =
 
   commands.editComment(parseInt(commentId), comment, activityId)
   .then((result) => {
-    response.json(null)
+    response.json(result)
   })
   .catch(next)
 })

@@ -33,6 +33,7 @@ export default class CardModal extends Component {
       editingDescription: false,
       editingName: false,
       showingLabelMenu: false,
+      error: null
     }
     this.showLabelMenu = this.showLabelMenu.bind(this)
     this.stopShowingLabelMenu = this.stopShowingLabelMenu.bind(this)
@@ -59,6 +60,7 @@ export default class CardModal extends Component {
     }).then(() => {
       boardStore.reload()
     }).catch(error => {
+      this.setState({error: 'Failed to create comment. Please try again or contact Jerad Grippe for help.'})
       console.error(error)
     })
   }
@@ -87,6 +89,7 @@ export default class CardModal extends Component {
               <CardDescription card={card}/>
             </div>
             <CardComments onCreateComment={this.onCreateComment} session={session}/>
+            <p className='CardModal-error'>{this.state.error}</p>
             <Link className='CardModal-Activity-header' >
               <Icon type='list' />
               Activity
@@ -238,10 +241,6 @@ class UnArchiveCardButton extends Component {
       <Icon type="refresh" /> Return to Board
     </Button>
   }
-}
-
-UnArchiveCardButton.proptypes = {
-
 }
 
 class ArchiveCardButton extends Component {
