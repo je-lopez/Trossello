@@ -191,9 +191,9 @@ const activityString = (activity, user, board) => {
         </span>
       </span>
     case 'AddedComment':
-      const comment = board.comments.find((comment) => {
-        return comment.id === metadata.comment_id
-      })
+      const comment = board.comments.find(
+        comment => comment.id === metadata.comment_id
+      )
       return (
         <Comment comment={comment} activity={activity} />
       )
